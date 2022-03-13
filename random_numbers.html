@@ -32,12 +32,17 @@
     </script>
 </head>
 <body>
+    <button onclick="check()">点击查看你的胜率</button>
     <script>
         while(1){
             playOnce();
             if (!confirm(final_digits +"\n" +(last_win?"赢":"输") + "\n您累计玩了"+play_times+"次，赢了"+wins+"次，胜率"+win_rate+"%,继续吗?" ))
              break;
                     }
+        
+        function check(){
+            document.write("你的胜率为："+ win_rate + "%")
+        }
     </script>
 </body>
 </html>
