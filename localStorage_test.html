@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A little practice for localStorage</title>
+</head>
+<script>
+    loadAllInfo()
+    function $(id) {return document.getElementById(id)}//定义一个拿id的简写
+    function saveInfo(){
+        var name1= $('username').value//拿姓名
+        var phone1= $('userphone').value//拿电话号码
+        if(name1!='' && phone1!=''){
+            localStorage.setItem(name1,phone1);
+            loadAllInfo()
+            alert('添加成功！')
+        }else{
+            alert('请输入姓名和电话！')
+            $('username').focus()
+        }
+    }
+    //按照姓名查找通讯录信息
+    function findForName(){
+        var searchname = $('search_name').value
+        var searchphone = localStorage.getItem(searchname)
+        $('userphone1').value = searchphone
+    }
+    //从localstorage中取出所有信息，并展示在相应的页面中
+    function loadAllInfo(){
+        var result = '';
+        if(localStorage.length>0){
+            result += "姓名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话<br/>"
+            for(let i=0; i<localStorage.length;i++){
+                var name = localStorage.key(i)//i为数组的下标
+                var phone = localStorage.getItem(name)
+                result += name+"   ---   "+phone+"<br/>"
+            }
+            $("displayallinfo").innerHTML = result
+        }else{
+            $('displayallinfo').innerHTML = "数据为空。。。。。"
+        }
+    }
+    //删除某一条通讯信息
+    function deleteName(){
+        localStorage.removeItem($('search_name').value)
+        $('search_name').value=''
+        loadAllInfo()
+    }
+</script>
+<body>
+    <fieldset>
+        <legend>通讯录添加</legend>
+        <label for="name">姓名：</label> <input type="text" id="username" name="username" required />
+        <br>
+        <label for="telphone">电话：</label><input type="text" id="userphone" name="userphone" required>
+        <br>
+        <br>
+        <input type="button" value="添加到通讯录" onclick="saveInfo()">
+        <input type="reset">
+        <div id="displayallinfo" name="displayallinfo"></div>
+    </fieldset>
+
+    <fieldset>
+        <legend>通讯录查询和删除</legend>
+        <label for="search_phone">输入姓名：</label>
+        <input type="text" name="search_name" id="search_name" required>
+        <br>
+        <label for="">电话：</label>
+        <!-- readonly 在这里是设置电话这里是只读属性 -->
+        <input type="text" name="" id="userphone1" readonly>
+        <br>
+        <input type="button" onclick="findForName()" value="查找通讯录">
+        <input type="button" onclick="deleteName()" value="删除通讯录">
+    </fieldset>
+</body>
+</html>
